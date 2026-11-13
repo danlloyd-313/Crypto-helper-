@@ -1,9 +1,9 @@
-// Refreshes data/btc-weekly.json with Bitcoin weekly closes from Kraken.
+// Refreshes btc-weekly.json with Bitcoin weekly closes from Kraken.
 // Kraken returns the latest ~720 weeks, so new weeks are merged into the
 // existing file and older history is kept.
 import { readFile, writeFile } from 'node:fs/promises';
 
-const FILE = new URL('../data/btc-weekly.json', import.meta.url);
+const FILE = new URL('./btc-weekly.json', import.meta.url);
 const WEEK = 7 * 864e5;
 
 const res = await fetch('https://api.kraken.com/0/public/OHLC?pair=XBTUSD&interval=10080');
