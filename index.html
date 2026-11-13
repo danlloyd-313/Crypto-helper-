@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Crypto outlook: going higher or lower?</title>
+  <meta name="description" content="A plain-English read on where the crypto market is in its cycle, with simulated outcomes and an entry score for any coin.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%232a78d6'/%3E%3Cpath d='M8 20l5-6 4 4 7-8' stroke='white' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <main class="wrap">
+
+    <header class="hero card" id="verdict">
+      <div class="hero-top">
+        <span class="live"><span class="live-dot" aria-hidden="true"></span><span id="asof">Loading live prices…</span></span>
+        <span class="badge" id="stage-badge">…</span>
+      </div>
+      <h1 class="hero-line" id="hero-line">Reading the market…</h1>
+      <p class="muted" id="hero-sub">Checking prices, the market mood and Bitcoin's cycle.</p>
+      <div class="scale" id="scale" aria-hidden="true">
+        <span data-stage="falling"></span><span data-stage="bottoming"></span><span data-stage="recovering"></span><span data-stage="rising"></span><span data-stage="overheated"></span>
+      </div>
+      <div class="scale-labels" aria-hidden="true"><span>Falling</span><span>Bottoming</span><span>Recovering</span><span>Rising</span><span>Overheated</span></div>
+      <div class="hidden-lines" hidden>
+        <p data-line="falling">Prices are falling and few signs of a bottom have appeared yet.</p>
+        <p data-line="bottoming">The market looks close to a bottom, but hasn't turned up yet.</p>
+        <p data-line="recovering">Signs of a bottom are in and prices are starting to recover.</p>
+        <p data-line="rising">Prices are in an uptrend. The bottom is most likely behind us.</p>
+        <p data-line="overheated">Prices have run hot and people are greedy. Past tops looked like this.</p>
+      </div>
+    </header>
+
+    <section class="block" id="search">
+      <h2>How good is the entry right now?</h2>
+      <p class="muted">Search any coin for a score out of 100 based on how cheap it is, whether it's turning up, and the overall market.</p>
+      <div class="search">
+        <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+        <input id="q" type="search" placeholder="Search a coin, like Cardano" autocomplete="off" aria-label="Search for a coin" aria-controls="suggestions">
+        <ul id="suggestions" class="suggestions" role="listbox" hidden></ul>
+      </div>
+      <p class="error" id="search-error" hidden></p>
+
+      <article class="card score-card" id="score-card" aria-live="polite">
+        <div class="score-head">
+          <div class="coin-id">
+            <img id="sc-img" alt="" width="32" height="32">
+            <div>
+              <p class="coin-name"><span id="sc-name">…</span> <span class="muted" id="sc-sym"></span></p>
+              <p class="muted small" id="sc-price"></p>
+            </div>
+          </div>
+          <div class="score-num"><span id="sc-score">–</span><span class="muted small">/100</span><p class="small" id="sc-word"></p></div>
+        </div>
+        <div class="meters">
+          <div class="meter"><div class="meter-top"><span>How cheap it is</span><span class="muted" id="sc-cheap-v"></span></div><div class="bar"><span id="sc-cheap"></span></div><p class="muted small" id="sc-cheap-t"></p></div>
+          <div class="meter"><div class="meter-top"><span>Is it turning up</span><span class="muted" id="sc-turn-v"></span></div><div class="bar"><span id="sc-turn"></span></div><p class="muted small" id="sc-turn-t"></p></div>
+          <div class="meter"><div class="meter-top"><span>Market backdrop</span><span class="muted" id="sc-back-v"></span></div><div class="bar"><span id="sc-back"></span></div><p class="muted small" id="sc-back-t"></p></div>
+        </div>
+        <div class="spark" id="sc-spark"></div>
+        <div class="risk-row"><span class="pill" id="sc-risk"></span><span class="muted small" id="sc-risk-t"></span></div>
+      </article>
+
+      <div class="rank" id="rank" aria-label="Scores for your coins"></div>
+    </section>
+
+    <section class="block" id="outcomes">
+      <h2>What could happen next?</h2>
+      <p class="muted">2,000 simulated futures for the next 18 months, built by replaying the coin's real daily moves from the past year in random order.</p>
+      <div class="controls">
+        <div class="seg" id="coin-tabs" role="tablist" aria-label="Coin"></div>
+        <div class="seg-wrap">
+          <span class="muted small">If the economy…</span>
+          <div class="seg" id="scenario-tabs" role="tablist" aria-label="Economy scenario"></div>
+        </div>
+      </div>
+      <p class="muted small" id="scenario-note"></p>
+      <div class="chart" id="fan"></div>
+      <div class="legend">
+        <span><i class="lg-past"></i>Price so far</span>
+        <span><i class="lg-band"></i>Likely range</span>
+        <span><i class="lg-mid"></i>Middle case</span>
+        <label><input type="checkbox" id="show-history" checked> <i class="lg-hist"></i>If Bitcoin's past recoveries repeat</label>
+      </div>
+
+      <div class="calc">
+        <div class="calc-row">
+          <label for="amount">If I put in</label>
+          <input type="range" id="amount" min="500" max="25000" step="500" value="8000">
+          <output id="amount-out" for="amount">£8,000</output>
+        </div>
+        <div class="tiles">
+          <div class="tile"><p class="muted small">Bad case</p><p class="tile-num" id="out-bad">–</p><p class="muted small" id="out-bad-x"></p></div>
+          <div class="tile"><p class="muted small">Middle case</p><p class="tile-num" id="out-mid">–</p><p class="muted small" id="out-mid-x"></p></div>
+          <div class="tile"><p class="muted small">Good case</p><p class="tile-num" id="out-good">–</p><p class="muted small" id="out-good-x"></p></div>
+        </div>
+        <p class="muted small">After 18 months. 1 in 10 simulations ended below the bad case, and 1 in 10 above the good case.</p>
+      </div>
+    </section>
+
+    <section class="two" id="signs">
+      <article class="card" id="bottom-card">
+        <h2>Are we near the bottom?</h2>
+        <p class="muted small">Signs that have lined up near past bottoms</p>
+        <div class="big-score"><span id="bottom-score">–</span><span class="muted">out of 5</span></div>
+        <div class="segs" id="bottom-segs"></div>
+        <ul class="signs">
+          <li><span class="pill" data-sign="mood">–</span><div><b>People are scared.</b> <span class="muted">The mood score is <span data-val="mood">–</span>/100. Bottoms usually come when it's under 25.</span></div></li>
+          <li><span class="pill" data-sign="drop">–</span><div><b>Bitcoin has fallen a long way.</b> <span class="muted">It's <span data-val="drop">–</span> below its peak. Past bottoms came after falls of about 75–85%.</span></div></li>
+          <li><span class="pill" data-sign="floor">–</span><div><b>Bitcoin is at its long-term floor.</b> <span class="muted">It's <span data-val="floor">–</span> from its 4-year average price, a line every past bottom has touched.</span></div></li>
+          <li><span class="pill" data-sign="timing">–</span><div><b>It's the usual time for a bottom.</b> <span class="muted">It's been <span data-val="timing">–</span> months since Bitcoin's peak. Past bottoms came 12–14 months after.</span></div></li>
+          <li><span class="pill" data-sign="stretch">–</span><div><b>Selling looks overdone.</b> <span class="muted"><span data-val="stretch">–</span> of your coins have had two weeks of very one-sided selling, which often runs out of steam.</span></div></li>
+        </ul>
+      </article>
+      <article class="card" id="climb-card">
+        <h2>Has the climb started?</h2>
+        <p class="muted small">Signs that an uptrend is under way</p>
+        <div class="big-score"><span id="climb-score">–</span><span class="muted">out of 4</span></div>
+        <div class="segs" id="climb-segs"></div>
+        <ul class="signs">
+          <li><span class="pill" data-sign="trend">–</span><div><b>Prices are back above their 7-month average.</b> <span class="muted"><span data-val="trend">–</span> of your coins are. This is the clearest sign a downtrend has ended.</span></div></li>
+          <li><span class="pill" data-sign="holding">–</span><div><b>Prices are holding above this year's lows.</b> <span class="muted"><span data-val="holding">–</span> of your coins are more than 5% above their 12-month low.</span></div></li>
+          <li><span class="pill" data-sign="mood_up">–</span><div><b>The mood has recovered.</b> <span class="muted">The mood score is <span data-val="mood_up">–</span>/100. Above 50 means buyers are confident again.</span></div></li>
+          <li><span class="pill" data-sign="month">–</span><div><b>The last month was positive.</b> <span class="muted"><span data-val="month">–</span> of your coins are up over the past 30 days.</span></div></li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="two" id="context">
+      <article class="card" id="mood">
+        <h2>Market mood, last 60 days</h2>
+        <p class="muted small">0 is extreme fear, 100 is extreme greed. Fear tends to peak near bottoms.</p>
+        <div class="chart" id="mood-chart"></div>
+      </article>
+      <article class="card" id="cycles">
+        <h2>How past Bitcoin bottoms compare</h2>
+        <p class="muted small">How far Bitcoin fell from its peak, and how long it took to hit bottom.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Cycle</th><th>Fall from peak</th><th>Months to bottom</th></tr></thead>
+            <tbody id="cycles-body"></tbody>
+          </table>
+        </div>
+      </article>
+    </section>
+
+    <details class="explainer" id="explainer">
+      <summary>What everything means, in plain English</summary>
+      <p><b>Market mood</b> is the Crypto Fear &amp; Greed Index. It blends price swings, trading volume, social media and surveys into one 0–100 score. Very low scores mean most people are scared and many have already sold, which is often near a low.</p>
+      <p><b>7-month average</b> is the average price over the last 200 days. Below it, the trend is down. When a coin climbs back above it and stays there, the trend has usually turned.</p>
+      <p><b>4-year average</b> is Bitcoin's average weekly price over about four years (the 200-week average). Every past bear market has bottomed near or just under it.</p>
+      <p><b>Selling looks overdone</b> uses a measure of how one-sided the last 14 days were (RSI under 30). When almost every day has been down, sellers are often close to running out.</p>
+      <p><b>Entry score</b> is 55% how cheap the coin is against its all-time high, 25% whether it's turning up, and 20% the market backdrop. A high score means the price and timing look good. It says nothing about whether the project itself is any good, which is why the risk label sits next to it.</p>
+      <p><b>Simulations</b> shuffle each coin's real daily price moves from the past year into 2,000 possible paths, then nudge them up or down for the economy you pick. The past-recovery lines show what Bitcoin actually did after its 2019 and 2022 bottoms, applied to today's price.</p>
+      <p>None of this can tell you the exact bottom, and markets can stay fearful for months. It's information to help you decide, not financial advice.</p>
+    </details>
+
+    <footer class="foot muted small">
+      <p>Prices from <a href="https://www.coingecko.com" target="_blank" rel="noopener">CoinGecko</a>. Mood from the <a href="https://alternative.me/crypto/fear-and-greed-index/" target="_blank" rel="noopener">Fear &amp; Greed Index</a>. Bitcoin history from Kraken. Not financial advice.</p>
+    </footer>
+  </main>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
