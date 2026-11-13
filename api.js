@@ -102,7 +102,7 @@ export function getMood() {
 }
 
 export async function getBtcWeekly() {
-  const res = await fetch('data/btc-weekly.json', { cache: 'no-cache' });
+ const res = await fetch('btc-weekly.json', { cache: 'no-cache' });
   if (!res.ok) throw new Error('Bitcoin history missing');
   const j = await res.json();
   const start = Date.parse(j.start);
